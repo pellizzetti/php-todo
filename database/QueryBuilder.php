@@ -9,7 +9,7 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
-    public function selectAll($table)
+    public function selectAll($table, $intoModel)
     {
         $statament = $this->pdo->prepare("select * from {$table}");
         $statament->execute();

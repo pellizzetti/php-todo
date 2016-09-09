@@ -4,6 +4,6 @@ require 'models/Task.php';
 
 $database = require 'bootstrap.php';
 
-$tasks = $database->selectAll('todos');
+$tasks = $database->selectAll('tasks', 'Task');
 
 require 'index.view.php';
