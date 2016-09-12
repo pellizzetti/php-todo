@@ -2,12 +2,11 @@
 
 require 'database/QueryBuilder.php';
 
-class Task
+class TaskList
 {
     private $query;
 
     public $description;
-    public $completed = false;
 
     public function __construct()
     {
@@ -16,16 +15,12 @@ class Task
 
     public function selectAll()
     {
-        return $this->query->selectAll('tasks');
+        return $this->query->selectAll('lists');
     }
 
-    public function isComplete()
+    public function selectTasks($id)
     {
-        return $this->completed;
+        return $this->query->selectJoinAll('tasks', 'lists', 'list_id', 'id', $id);
     }
 
-    public function complete()
-    {
-        $this->completed = true;
-    }
 }

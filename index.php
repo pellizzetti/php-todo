@@ -1,9 +1,5 @@
 <?php
 
-require 'models/Task.php';
+require 'controllers/HomeController.php';
 
-$database = require 'bootstrap.php';
-
-$tasks = $database->selectAll('tasks', 'Task');
-
-require 'index.view.php';
+HomeController::index();
