@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 09-Set-2016 às 14:15
+-- Generation Time: 19-Set-2016 às 02:59
 -- Versão do servidor: 5.7.11
 -- PHP Version: 5.6.19
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `phptodo`
 --
+CREATE DATABASE IF NOT EXISTS `phptodo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `phptodo`;
 
 -- --------------------------------------------------------
 
@@ -28,16 +30,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `lists` (
   `id` int(11) NOT NULL,
-  `title` varchar(300) NOT NULL,
+  `title` varchar(300) CHARACTER SET latin2 NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin2;
-
---
--- Extraindo dados da tabela `lists`
---
-
-INSERT INTO `lists` (`id`, `title`, `created_at`) VALUES
-(1, 'My First List', '2016-09-09 11:12:01');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -48,18 +43,10 @@ INSERT INTO `lists` (`id`, `title`, `created_at`) VALUES
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
   `list_id` int(11) NOT NULL,
-  `description` text NOT NULL,
+  `description` text CHARACTER SET latin2 NOT NULL,
   `completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin2;
-
---
--- Extraindo dados da tabela `tasks`
---
-
-INSERT INTO `tasks` (`id`, `list_id`, `description`, `completed`, `created_at`) VALUES
-(1, 1, 'This is my first task', 0, '2016-09-09 11:12:50'),
-(2, 1, 'This is my second task', 0, '2016-09-09 11:12:50');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -87,12 +74,12 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `lists`
 --
 ALTER TABLE `lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --

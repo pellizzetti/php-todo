@@ -1,5 +1,8 @@
 <?php
 
-require 'controllers/HomeController.php';
+require 'routes/Router.php';
+$routes = require 'routes/routes.php';
 
-HomeController::index();
+$router = new Router($routes);
+
+$router->run();

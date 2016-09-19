@@ -32,9 +32,14 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-	<div class="container">
+  <div class="container">
 
-		<div class="starter">
+    <div class="starter">
+
+      <a href="/add" class="pull-right btn btn-default" role="button"><span class="glyphicon glyphicon-plus"></span> Add Task List</a>
+      </br>
+
+      <hr>
 
       <h1>Task Lists</h1>
 
@@ -44,25 +49,24 @@
 
           <?php foreach ($lists as $list): ?>
 
-            <?php $tasks = $taskList->selectTasks($list->id);?>
             <a href="#" class="list-group-item" data-toggle="collapse" <?="data-target=\"#list-{$list->id}\"";?> data-parent="#menu">
               <?=$list->title;?>
+              <?php if (count($list->tasks)): ?>
 
-              <?php if (count($tasks)): ?>
-
-                <span class="pull-right badge badge-primary"><?=count($tasks)?></span></a>
+                <span class="pull-right badge badge-primary"><?=count($list->tasks)?></span></a>
 
                 <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
-                  <?php foreach ($tasks as $task): ?>
+                  <?php foreach ($list->tasks as $task): ?>
                     <a class="list-group-item small">
+
                       <?php if ($task->completed): ?>
                         <?="<strike>{$task->description}</strike>";?>
                       <?php else: ?>
                         <?="{$task->description}";?>
                       <?php endif;?>
                       <div class="pull-right">
-                        <span class="glyphicon glyphicon-edit fa-fw"> </span>
-                        <span class="glyphicon glyphicon-remove fa-fw"> </span>
+                        <span class="glyphicon glyphicon-edit"></span>
+                        <span class="glyphicon glyphicon-remove"></span>
                       </div>
                     </a>
                   <?php endforeach;?>
@@ -71,7 +75,7 @@
               <?php else: ?>
                 </a>
                 <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
-                  <a class="list-group-item small">No tasks here</a>
+                  <a class="list-group-item small">No tasks here :(</a>
                 </div>
               <?php endif;?>
 
@@ -86,7 +90,7 @@
 
     </div>
 
-	</div>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
   <script src="views/assets/js/bootstrap.min.js"></script>
   </body>

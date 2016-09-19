@@ -7,7 +7,8 @@ return [
         'username' => 'root',
         'password' => '',
         'options' => [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "set names 'utf8mb4' collate 'utf8mb4_unicode_ci'",
         ],
     ],
 ];

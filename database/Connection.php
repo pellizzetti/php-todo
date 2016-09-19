@@ -3,14 +3,14 @@
 class Connection
 {
 
-    public static function Make($config = '/config/app.php')
+    public static function Make($config = './config/app.php')
     {
         $config = require $config;
 
         try {
             return new PDO(
-                $config['database']['connection'] . 
-                ';dbname=' . $config['database']['name'],
+                $config['database']['connection'] .
+                ';dbname=' . $config['database']['name'] . ';charset=utf8mb4',
                 $config['database']['username'],
                 $config['database']['password'],
                 $config['database']['options']

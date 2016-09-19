@@ -24,8 +24,8 @@ class Task
         return $this->completed;
     }
 
-    public function complete()
+    public function toggleComplete()
     {
-        $this->completed = true;
+        $this->completed = ! $this->completed;
     }
 }
