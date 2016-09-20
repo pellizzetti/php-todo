@@ -1,6 +1,6 @@
 <?php
 
-require 'Connection.php';
+require_once 'Connection.php';
 
 class QueryBuilder
 {
@@ -42,6 +42,14 @@ class QueryBuilder
         foreach ($data as $key => $value) {
             $stmt->bindValue(":{$key}", $value);
         }
+
+        $stmt->execute();
+    }
+
+    public function delete($table, $id)
+    {
+        $stmt = $this->pdo->prepare("delete from {$table} where id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         $stmt->execute();
     }

@@ -8,8 +8,8 @@
 
     <title>PHP To-Do</title>
 
-    <link href="views/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="views/assets/css/style.css" rel="stylesheet">
+    <link href="../../views/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../views/assets/css/style.css" rel="stylesheet">
 
   </head>
 
@@ -56,6 +56,6 @@
 
 	</div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-  <script src="views/assets/js/bootstrap.min.js"></script>
+  <script src="../../views/assets/js/bootstrap.min.js"></script>
   </body>
 </html>

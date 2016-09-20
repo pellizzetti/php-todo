@@ -41,10 +41,17 @@ class TaskListController
             exit();
         }
 
-        header("Location: /add");
-        // die(var_dump($error));
-        require_once 'views/add.view.php';
+        header("Location: /list/add");
+        exit();
+    }
 
+    public function delete($data)
+    {
+        $id = $data[0];
+        $this->taskList->delete($id);
+
+        header("Location: /");
+        exit();
     }
 
 }

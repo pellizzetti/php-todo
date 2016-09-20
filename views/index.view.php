@@ -36,7 +36,7 @@
 
     <div class="starter">
 
-      <a href="/add" class="pull-right btn btn-default" role="button"><span class="glyphicon glyphicon-plus"></span> Add Task List</a>
+      <a href="list/add" class="pull-right btn btn-default" role="button"><span class="glyphicon glyphicon-plus"></span> Add Task List</a>
       </br>
 
       <hr>
@@ -49,11 +49,11 @@
 
           <?php foreach ($lists as $list): ?>
 
-            <a href="#" class="list-group-item" data-toggle="collapse" <?="data-target=\"#list-{$list->id}\"";?> data-parent="#menu">
-              <?=$list->title;?>
+            <span class="list-group-item" data-toggle="collapse" <?="data-target=\"#list-{$list->id}\"";?>><a <?="href=\"list/{$list->id}/delete\"";?>><span class="glyphicon glyphicon-remove"></span></a>
+              <strong><?=$list->title;?></strong>
               <?php if (count($list->tasks)): ?>
 
-                <span class="pull-right badge badge-primary"><?=count($list->tasks)?></span></a>
+                <span class="pull-right badge badge-primary"><?=count($list->tasks)?></span></span>
 
                 <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
                   <?php foreach ($list->tasks as $task): ?>
@@ -73,7 +73,7 @@
                 </div>
 
               <?php else: ?>
-                </a>
+                </span>
                 <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
                   <a class="list-group-item small">No tasks here :(</a>
                 </div>

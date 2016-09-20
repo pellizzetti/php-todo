@@ -5,3 +5,7 @@
 .glyphicon {
     padding: 2px;
 }
+
+span.list-group-item {
+	cursor: pointer;
+}

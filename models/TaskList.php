@@ -30,4 +30,9 @@ class TaskList
         return $this->query->insert('lists', $data);
     }
 
+    public function delete($id)
+    {
+        return $this->query->delete('lists', $id);
+    }
+
 }

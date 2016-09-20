@@ -15,31 +15,30 @@ class Router
         $reqUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
         $reqUri = trim($reqUri, '/\^$');
 
-        $route = isset($this->routes[$reqUri]) ? $this->routes[$reqUri] : null;
+        foreach ($this->routes as $route => $callback) {
 
-        if ($route == null) {
-            return die("Route $reqUri not found.");
-        }
+            $pattern = "@^" . preg_replace('/\\\:[a-zA-Z0-9\_\-]+/', '([a-zA-Z0-9\-\_]+)', preg_quote($route)) . "$@D";
 
-        if ($route instanceof Closure) {
-            return call_user_func($route);
-        }
+            if (preg_match($pattern, $reqUri, $match)) {
 
-        if (stripos($route, '@') !== false) {
-            list($route, $method) = explode('@', $route);
-            $hasMethod = true;
-        }
+                array_shift($match);
 
-        $controllersPath = 'controllers';
-        if (!file_exists("{$controllersPath}/{$route}.php")) {
-            return die("Controller $route not found.");
-        }
+                if ($callback instanceof Closure) {
+                    return call_user_func_array($callback, $match);
+                }
 
-        require_once "{$controllersPath}/{$route}.php";
-        $controller = new $route;
+                list($callback, $method) = explode('@', $callback);
 
-        if (isset($hasMethod)) {
-            $controller->$method();
+                $controllersPath = 'controllers';
+                if (!file_exists("{$controllersPath}/{$callback}.php")) {
+                    return die("Controller $callback not found.");
+                }
+
+                require_once "{$controllersPath}/{$callback}.php";
+                $controller = new $callback;
+                $controller->$method($match);
+
+            }
         }
 
     }
