@@ -34,7 +34,35 @@
 
   <div class="container">
 
+  <div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modalDeleteConfirmation" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">x</button>
+          <h4 class="modal-title" id="modalDeleteConfirmation">Confirm Delete</h4>
+        </div>
+
+        <div class="modal-body">
+          <p>You are about to delete <b><i class="title"></i></b>.</p>
+          <p>Do you want to proceed?</p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger btn-ok">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <div class="starter">
+      <?php if (isset($_SESSION['alert_message'])): ?>
+        <div <?="class=\"alert {$_SESSION['alert_message']['class']}\"";?>>
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <?=$_SESSION['alert_message']['message'];?>
+        </div>
+      <?php endif;?>
 
       <a href="list/add" class="pull-right btn btn-default" role="button"><span class="glyphicon glyphicon-plus"></span> Add Task List</a>
       </br>
@@ -45,53 +73,157 @@
 
       <?php if (count($lists)): ?>
 
-        <div class="panel list-group">
+      <?php foreach ($lists as $list): ?>
+      <div class="panel panel-default" <?="id=\"list-{$list->id}\"";?>>
 
-          <?php foreach ($lists as $list): ?>
+        <div class="panel-heading">
+          <div class="row">
 
-            <span class="list-group-item" data-toggle="collapse" <?="data-target=\"#list-{$list->id}\"";?>><a <?="href=\"list/{$list->id}/delete\"";?>><span class="glyphicon glyphicon-remove"></span></a>
+          <div class="col-lg-6">
+            <div class="pull-left action-buttons">
+              <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </button>
+                <ul class="dropdown-menu slidedown">
+                  <li class="text-center">Task List</li>
+                  <li><a class="text-info" <?="href=\"list/{$list->id}/edit\"";?>><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+                  <li><a class="text-danger" href="#" <?="data-id=\"{$list->id}\" data-title=\"{$list->title}\"";?> data-origin="list" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-title" data-toggle="collapse" <?="data-target=\"#list-tasks-{$list->id}\"";?>>
               <strong><?=$list->title;?></strong>
               <?php if (count($list->tasks)): ?>
-
-                <span class="pull-right badge badge-primary"><?=count($list->tasks)?></span></span>
-
-                <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
-                  <?php foreach ($list->tasks as $task): ?>
-                    <a class="list-group-item small">
-
-                      <?php if ($task->completed): ?>
-                        <?="<strike>{$task->description}</strike>";?>
-                      <?php else: ?>
-                        <?="{$task->description}";?>
-                      <?php endif;?>
-                      <div class="pull-right">
-                        <span class="glyphicon glyphicon-edit"></span>
-                        <span class="glyphicon glyphicon-remove"></span>
-                      </div>
-                    </a>
-                  <?php endforeach;?>
-                </div>
-
-              <?php else: ?>
-                </span>
-                <div <?="id=\"list-{$list->id}\"";?> class="sublinks collapse">
-                  <a class="list-group-item small">No tasks here :(</a>
-                </div>
+              <span class="badge progress-bar-info"><?=count($list->tasks)?></span>
               <?php endif;?>
+            </div>
+          </div>
 
-          <?php endforeach;?>
+          <div class="col-lg-6">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Task description...">
+              <span class="input-group-btn">
+                <button class="add-task btn btn-primary" <?="data-id=\"{$list->id}\"";?> type="button">Add Task</button>
+              </span>
+            </div>
+          </div>
 
-        </div>
+          </div> <!-- /.row-->
+        </div> <!-- /.panel-heading -->
 
+        <div <?php echo ($list == $lists{0} ? "class=\"panel-body sublinks collapse in\"" : "class=\"panel-body sublinks collapse\""); ?>  <?="id=\"list-tasks-{$list->id}\"";?>>
+          <ul class="list-group">
+            <?php foreach ($list->tasks as $task): ?>
+            <li class="list-group-item" <?="id=\"task-{$task->id}\" data-id=\"{$task->id}\"";?>>
+              <div class="checkbox">
+                <input type="checkbox" class="completed" <?="id=\"checkbox-{$task->id}\"";?> <?php if ($task->completed): echo 'checked';endif;?> >
+                <label <?="for=\"checkbox-{$task->id}\"";?> class="task-description" contenteditable="true">
+                  <?=$task->description;?>
+                </label>
+              </div>
+              <div class="pull-right action-buttons">
+                <a class="edit-task text-info" href="#" <?="data-id=\"{$task->id}\"";?>><span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="text-danger" href="#" <?="data-id=\"{$task->id}\" data-title=\"{$task->description}\"";?> data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span></a>
+              </div>
+            </li>
+            <?php endforeach;?>
+          </ul> <!-- /.list-group -->
+        </div> <!-- /.panel-body -->
+
+      </div> <!-- /.panel -->
+
+      <?php endforeach;?>
 
       <?php else: ?>
         <?="<h4>No task lists created</h4>"?>
       <?php endif;?>
 
     </div>
-
+    <?php unset($_SESSION['alert_message']);?>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
   <script src="views/assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready (function() {
+
+      $(".alert").delay(2750).fadeOut(750, function() {
+        $(this).remove();
+      });
+
+      $('#delete-confirmation').on('show.bs.modal', function(e) {
+        var data = $(e.relatedTarget).data();
+
+        $('.title', this).text(data.title);
+        $('.btn-ok', this).data('id', data.id).data('origin', data.origin);
+      });
+
+      $('#delete-confirmation').on('click', '.btn-ok', function(e) {
+        var deleteModal = $(e.delegateTarget);
+        var id = $(this).data('id');
+        var origin = $(this).data('origin');
+        var element = (origin == 'list') ? $('div#list-' + id) : $('li#task-' + id);
+
+        $.ajax({
+          type: 'DELETE',
+          url: origin + '/' + id + '/delete',
+          success: function() {
+            deleteModal.modal('hide').removeClass('loading');
+            element.slideUp(300,function() {
+              element.remove();
+            });
+          }
+        });
+      });
+
+      $('.completed').on('click', function() {
+        var task = $(this).closest('.list-group-item');
+        var id = task.data('id');
+        var checked = $(this).is(':checked') ? 1 : 0;
+
+        $.ajax({
+          type: "POST",
+          url: 'task/' + id + '/toggle/' + checked
+        });
+      });
+
+      $('.add-task').on('click', function() {
+        var list_id = $(this).data('id');
+        var description = $(this).parent().prev('input').val();
+
+        if (description !== '') {
+          var listGroup = $('#list-tasks-' + list_id).children('.list-group');
+
+          $.ajax({
+            type: "POST",
+            data: {description: description, list_id: list_id},
+            url: 'task/add/post',
+            success: function(data) {
+              var newTask = $.parseJSON(data);
+
+              listGroup.append('<li class="list-group-item" id="task-' + newTask.id + '" data-id="' + newTask.id + '">' +
+                '<div class="checkbox">' +
+                '<input type="checkbox" class="completed" id="checkbox-' + newTask.id + '">' +
+                '<label for="checkbox-' + newTask.id + '">' +
+                  newTask.description +
+                '</label>' +
+                '</div>' +
+                '<div class="pull-right action-buttons">' +
+                  '<a class="edit-task text-info" href="#" data-id="' + newTask.id + '"><span class="glyphicon glyphicon-pencil"></span></a>' +
+                  '<a class="text-danger" href="#" data-id="' + newTask.id + '" data-title="' + newTask.description + '" data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span></a>' +
+                '</div>' +
+                '</li>');
+            }
+          });
+        }
+      });
+
+      $('.edit-task').on('click', function() {
+        //contenteditable
+
+      });
+
+    });
+  </script>
   </body>
 </html>

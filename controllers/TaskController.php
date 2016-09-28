@@ -1,16 +1,62 @@
 <?php
 
+require_once 'models/Task.php';
+
 class TaskController
 {
 
-    public function index()
+    private $task;
+
+    public function __construct()
     {
-        echo 'legal';
+        $this->task = new Task();
     }
 
-    public function test()
+    public function add()
     {
-        echo 'test';
+
+        $description = filter_input(INPUT_POST, 'description');
+        $list_id = filter_input(INPUT_POST, 'list_id');
+
+        if (empty($description)) {
+            $_SESSION['error_msg'] = 'Description is required.';
+        }
+
+        if (!isset($_SESSION['error_msg'])) {
+
+            $data = array('description' => $description,
+                'list_id' => $list_id);
+
+            $id = $this->task->add($data);
+
+            $json = array('id' => $id,
+                'description' => $description,
+                'list_id' => $list_id);
+
+            echo json_encode($json);
+
+            exit();
+        }
+
+        header("Location: /");
+        exit();
+    }
+
+    public function toggle($params)
+    {
+        $id = $params[0];
+        $completed = $params[1];
+
+        $data = array('completed' => $completed);
+
+        $this->task->update($data, $id);
+    }
+
+    public function delete($params)
+    {
+        $id = $params[0];
+
+        $this->task->delete($id);
     }
 
 }

@@ -6,6 +6,42 @@
     padding: 2px;
 }
 
-span.list-group-item {
+.panel-title {
 	cursor: pointer;
+}
+
+.panel-body { 
+    padding: 0px; 
+}
+
+.panel .action-buttons {
+    margin-right: 5px;
+}
+
+.panel-title {
+    margin-left: 35px;
+}
+
+.list-group-item .glyphicon { 
+    margin-right: 10px; 
+}
+
+.panel-body .radio, .checkbox { 
+    display: inline-block;
+    margin: 0px;
+    margin-left: 20px; 
+}
+
+.panel-body input[type=checkbox]:checked + label { 
+    text-decoration: line-through;
+    color: rgb(128, 144, 160); 
+}
+
+.list-group-item:hover, a.list-group-item:focus {
+    text-decoration: none;
+    background-color: rgb(245, 245, 245);
+}
+
+.list-group { 
+    margin-bottom: 0px; 
 }

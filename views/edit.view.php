@@ -36,15 +36,15 @@
 
 		<div class="starter">
 
-			<h1>Add a Task List</h1>
-			<form action="add/post" method="POST">
+			<h1>Edit <?=$list->title;?></h1>
+			<form action="edit/update" method="POST">
         <?php if (!isset($_SESSION['error_message'])): ?>
 				  <?='<div class="form-group">';?>
         <?php else: ?>
           <?='<div class="form-group has-error">';?>
         <?php endif;?>
 					<label for="title">Title</label>
-					<input type="text" class="form-control" id="title" name="title" placeholder="Title">
+					<input type="text" class="form-control" id="title" name="title" placeholder="Title" <?="value=\"{$list->title}\"";?>>
           <?php if (isset($_SESSION['error_message'])): ?>
             <?="<span id=\"helpBlock\" class=\"help-block\">{$_SESSION['error_message']}</span>";?>
           <?php endif;?>

@@ -12,8 +12,7 @@ class Router
 
     public function run()
     {
-        $reqUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-        $reqUri = trim($reqUri, '/\^$');
+        $reqUri = $_SERVER['REQUEST_URI'];
 
         foreach ($this->routes as $route => $callback) {
 

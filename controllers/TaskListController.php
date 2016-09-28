@@ -25,17 +25,22 @@ class TaskListController
     public function add()
     {
 
-        $title = $_POST['title'];
+        $title = filter_input(INPUT_POST, 'title');
 
         if (empty($title)) {
-            $error['title'] = 'Title is required.';
+            $_SESSION['error_msg'] = 'Title is required.';
         }
 
-        if (!isset($error)) {
+        if (!isset($_SESSION['error_msg'])) {
 
             $data = array('title' => $title);
 
             $this->taskList->add($data);
+
+            $_SESSION['alert_message'] = [
+                'message' => "Task list {$title} <strong>successfully</strong> created!",
+                'class' => 'alert-success',
+            ];
 
             header("Location: /");
             exit();
@@ -45,13 +50,47 @@ class TaskListController
         exit();
     }
 
-    public function delete($data)
+    public function edit($params)
     {
-        $id = $data[0];
-        $this->taskList->delete($id);
+        $id = $params[0];
+        $list = $this->taskList->findBy('id', $id);
 
-        header("Location: /");
+        require_once 'views/edit.view.php';
+    }
+
+    public function update($params)
+    {
+        $id = $params[0];
+        $title = filter_input(INPUT_POST, 'title');
+
+        if (empty($title)) {
+            $_SESSION['error_message'] = 'Title is required.';
+        }
+
+        if (!isset($_SESSION['error_message'])) {
+
+            $data = array('title' => $title);
+
+            $this->taskList->update($data, $id);
+
+            $_SESSION['alert_message'] = [
+                'message' => "Task list {$title} <strong>successfully</strong> edited!",
+                'class' => 'alert-success',
+            ];
+
+            header("Location: /");
+            exit();
+        }
+
+        header("Location: /list/{$id}/edit");
         exit();
+    }
+
+    public function delete($params)
+    {
+        $id = $params[0];
+
+        $this->taskList->delete($id);
     }
 
 }
