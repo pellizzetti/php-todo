@@ -46,7 +46,7 @@ $(document).ready (function() {
     });
   });
 
-  $('.completed').on('click', function() {
+  $(document).on('click', '.completed', function() {
     var task = $(this).closest('.list-group-item');
     var id = task.data('id');
     var checked = $(this).is(':checked') ? 1 : 0;
@@ -80,13 +80,13 @@ $(document).ready (function() {
           listGroup.append('<li class="list-group-item" id="task-' + newTask.id + '" data-id="' + newTask.id + '">' +
             '<div class="checkbox">' +
             '<input type="checkbox" class="completed" id="checkbox-' + newTask.id + '">' +
-            '<label for="checkbox-' + newTask.id + '">' +
+            '<p>' +
               newTask.description +
-            '</label>' +
+            '</p>' +
             '</div>' +
             '<div class="pull-right action-buttons">' +
               '<a class="edit-task" href="#" data-id="' + newTask.id + '"><span class="text-info glyphicon glyphicon-pencil"></span></a>' +
-              '<a href="#" data-id="' + newTask.id + '" data-title="' + newTask.description + '" data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="text-danger glyphicon glyphicon-trash"></span></a>' +
+              '<a class="delete-task" href="#" data-id="' + newTask.id + '" data-title="' + newTask.description + '" data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="text-danger glyphicon glyphicon-trash"></span></a>' +
             '</div>' +
             '</li>');
 

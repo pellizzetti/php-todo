@@ -115,7 +115,7 @@
         <div <?php echo ($list == $lists{0} ? "class=\"panel-body sublinks collapse in\"" : "class=\"panel-body sublinks collapse\""); ?>  <?="id=\"list-tasks-{$list->id}\"";?>>
           <ul class="list-group">
             <?php foreach ($list->tasks as $task): ?>
-            <li class="list-group-item" <?="id=\"task-{$task->id}\" data-id=\"{$task->id}\"";?>>
+            <li <?php echo ($task->completed ? "class=\"list-group-item disabled\"" : "class=\"list-group-item\""); ?> <?="id=\"task-{$task->id}\" data-id=\"{$task->id}\"";?>>
               <div class="checkbox">
                 <input type="checkbox" class="completed" <?="id=\"checkbox-{$task->id}\"";?> <?php if ($task->completed): echo 'checked';endif;?>>
                 <p><?=$task->description;?></p>
