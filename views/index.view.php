@@ -87,8 +87,8 @@
                 </button>
                 <ul class="dropdown-menu slidedown">
                   <li class="text-center">Task List</li>
-                  <li><a class="text-info" <?="href=\"list/{$list->id}/edit\"";?>><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
-                  <li><a class="text-danger" href="#" <?="data-id=\"{$list->id}\" data-title=\"{$list->title}\"";?> data-origin="list" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+                  <li><a <?="href=\"list/{$list->id}/edit\"";?>><span class="text-info glyphicon glyphicon-pencil"></span>Edit</a></li>
+                  <li><a href="#" <?="data-id=\"{$list->id}\" data-title=\"{$list->title}\"";?> data-origin="list" data-toggle="modal" data-target="#delete-confirmation"><span class="text-danger glyphicon glyphicon-trash"></span>Delete</a></li>
                 </ul>
               </div>
             </div>
@@ -117,14 +117,12 @@
             <?php foreach ($list->tasks as $task): ?>
             <li class="list-group-item" <?="id=\"task-{$task->id}\" data-id=\"{$task->id}\"";?>>
               <div class="checkbox">
-                <input type="checkbox" class="completed" <?="id=\"checkbox-{$task->id}\"";?> <?php if ($task->completed): echo 'checked';endif;?> >
-                <label <?="for=\"checkbox-{$task->id}\"";?> class="task-description" contenteditable="true">
-                  <?=$task->description;?>
-                </label>
+                <input type="checkbox" class="completed" <?="id=\"checkbox-{$task->id}\"";?> <?php if ($task->completed): echo 'checked';endif;?>>
+                <p><?=$task->description;?></p>
               </div>
               <div class="pull-right action-buttons">
-                <a class="edit-task text-info" href="#" <?="data-id=\"{$task->id}\"";?>><span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="text-danger" href="#" <?="data-id=\"{$task->id}\" data-title=\"{$task->description}\"";?> data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span></a>
+                <a class="edit-task" href="#" <?="data-id=\"{$task->id}\"";?>><span class="text-info glyphicon glyphicon-pencil"></span></a>
+                <a class="delete-task" href="#" <?="data-id=\"{$task->id}\" data-title=\"{$task->description}\"";?> data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="text-danger glyphicon glyphicon-trash"></span></a>
               </div>
             </li>
             <?php endforeach;?>
@@ -144,86 +142,6 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
   <script src="views/assets/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready (function() {
-
-      $(".alert").delay(2750).fadeOut(750, function() {
-        $(this).remove();
-      });
-
-      $('#delete-confirmation').on('show.bs.modal', function(e) {
-        var data = $(e.relatedTarget).data();
-
-        $('.title', this).text(data.title);
-        $('.btn-ok', this).data('id', data.id).data('origin', data.origin);
-      });
-
-      $('#delete-confirmation').on('click', '.btn-ok', function(e) {
-        var deleteModal = $(e.delegateTarget);
-        var id = $(this).data('id');
-        var origin = $(this).data('origin');
-        var element = (origin == 'list') ? $('div#list-' + id) : $('li#task-' + id);
-
-        $.ajax({
-          type: 'DELETE',
-          url: origin + '/' + id + '/delete',
-          success: function() {
-            deleteModal.modal('hide').removeClass('loading');
-            element.slideUp(300,function() {
-              element.remove();
-            });
-          }
-        });
-      });
-
-      $('.completed').on('click', function() {
-        var task = $(this).closest('.list-group-item');
-        var id = task.data('id');
-        var checked = $(this).is(':checked') ? 1 : 0;
-
-        $.ajax({
-          type: "POST",
-          url: 'task/' + id + '/toggle/' + checked
-        });
-      });
-
-      $('.add-task').on('click', function() {
-        var list_id = $(this).data('id');
-        var description = $(this).parent().prev('input').val();
-
-        if (description !== '') {
-          var listGroup = $('#list-tasks-' + list_id).children('.list-group');
-
-          $.ajax({
-            type: "POST",
-            data: {description: description, list_id: list_id},
-            url: 'task/add/post',
-            success: function(data) {
-              var newTask = $.parseJSON(data);
-
-              listGroup.append('<li class="list-group-item" id="task-' + newTask.id + '" data-id="' + newTask.id + '">' +
-                '<div class="checkbox">' +
-                '<input type="checkbox" class="completed" id="checkbox-' + newTask.id + '">' +
-                '<label for="checkbox-' + newTask.id + '">' +
-                  newTask.description +
-                '</label>' +
-                '</div>' +
-                '<div class="pull-right action-buttons">' +
-                  '<a class="edit-task text-info" href="#" data-id="' + newTask.id + '"><span class="glyphicon glyphicon-pencil"></span></a>' +
-                  '<a class="text-danger" href="#" data-id="' + newTask.id + '" data-title="' + newTask.description + '" data-origin="task" data-toggle="modal" data-target="#delete-confirmation"><span class="glyphicon glyphicon-trash"></span></a>' +
-                '</div>' +
-                '</li>');
-            }
-          });
-        }
-      });
-
-      $('.edit-task').on('click', function() {
-        //contenteditable
-
-      });
-
-    });
-  </script>
+  <script src="views/assets/js/app.js"></script>
   </body>
 </html>

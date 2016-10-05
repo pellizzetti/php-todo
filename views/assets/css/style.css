@@ -2,8 +2,9 @@
   padding: 20px 15px;
 }
 
-.glyphicon {
+.glyphicon, .glyphicon:hover, .glyphicon:active, .glyphicon:focus {
     padding: 2px;
+    text-decoration: none;
 }
 
 .panel-title {
@@ -26,6 +27,10 @@
     margin-right: 10px; 
 }
 
+.list-group-item p { 
+    margin: 1px 3px 0px;
+}
+
 .panel-body .radio, .checkbox { 
     display: inline-block;
     margin: 0px;
@@ -37,11 +42,15 @@
     color: rgb(128, 144, 160); 
 }
 
-.list-group-item:hover, a.list-group-item:focus {
+.list-group-item:hover {
     text-decoration: none;
     background-color: rgb(245, 245, 245);
 }
 
 .list-group { 
     margin-bottom: 0px; 
+}
+
+.list-group-item.disabled a {
+    cursor: not-allowed;
 }

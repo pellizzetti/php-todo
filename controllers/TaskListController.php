@@ -28,10 +28,10 @@ class TaskListController
         $title = filter_input(INPUT_POST, 'title');
 
         if (empty($title)) {
-            $_SESSION['error_msg'] = 'Title is required.';
+            $_SESSION['error_message'] = 'Title is required.';
         }
 
-        if (!isset($_SESSION['error_msg'])) {
+        if (!isset($_SESSION['error_message'])) {
 
             $data = array('title' => $title);
 

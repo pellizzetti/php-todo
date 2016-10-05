@@ -12,4 +12,5 @@ return [
     '/task/add/post' => 'TaskController@add',
     '/task/:id/toggle/:status' => 'TaskController@toggle',
     '/task/:id/delete' => 'TaskController@delete',
+    '/task/:id/edit/update' => 'TaskController@update',
 ];

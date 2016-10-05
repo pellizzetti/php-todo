@@ -19,10 +19,10 @@ class TaskController
         $list_id = filter_input(INPUT_POST, 'list_id');
 
         if (empty($description)) {
-            $_SESSION['error_msg'] = 'Description is required.';
+            $_SESSION['error_message'] = 'Description is required.';
         }
 
-        if (!isset($_SESSION['error_msg'])) {
+        if (!isset($_SESSION['error_message'])) {
 
             $data = array('description' => $description,
                 'list_id' => $list_id);
@@ -57,6 +57,24 @@ class TaskController
         $id = $params[0];
 
         $this->task->delete($id);
+    }
+
+    public function update($params)
+    {
+        $id = $params[0];
+        $description = filter_input(INPUT_POST, 'description');
+
+        if (empty($description)) {
+            $_SESSION['error_message'] = 'Description is required.';
+        }
+
+        if (!isset($_SESSION['error_message'])) {
+
+            $data = array('description' => $description);
+
+            $this->task->update($data, $id);
+        }
+
     }
 
 }
